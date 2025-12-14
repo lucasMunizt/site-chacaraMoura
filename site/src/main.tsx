@@ -5,7 +5,7 @@ import "./index.css";
 import App from "./App";
 import { Site } from "./components/Common/site";
 import Login from "./plataforma/login";
-import { Home } from "lucide-react";
+import Home from "./plataforma/home";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -13,13 +13,13 @@ const router = createBrowserRouter([
     children: [
       { index: true, element: <Site /> },
       {
-        path:"login",
-        element:<Login/>
+        path: "login",
+        element: <Login />,
       },
       {
-        path:"home",
-        element:<Home/>
-      }
+        path: "home",
+        element: <Home />,
+      },
     ],
   },
 ]);
