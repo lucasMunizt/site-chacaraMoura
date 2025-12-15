@@ -47,6 +47,7 @@ const MenuModal = () => {
          fixed
          bottom-0
           max-h-[85vh]
+          z-50
           rounded-t-2xl
           bg-[#0b0f19]/95
           backdrop-blur-xl
@@ -55,8 +56,15 @@ const MenuModal = () => {
           p-0
         [&>button]:text-white
         [&>button:hover]:text-[#f77239]
+        
         "
       >
+        {/* <div className="fixed z-50 gap-4 p-6 
+        shadow-lg transition ease-in-out 
+        data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:duration-300 
+        data-[state=open]:duration-500 inset-x-0 bottom-0 border-t data-[state=closed]:slide-out-to-bottom 
+        data-[state=open]:slide-in-from-bottom h-[60vh] rounded-t-xl 
+        bg-gradient-to-b from-background to-background/95 backdrop-blur-sm"></div> */}
         {/* HANDLE */}
         <div className="flex justify-center pt-3">
           <div className="h-1 w-12 rounded-full bg-muted/40" />
@@ -73,12 +81,12 @@ const MenuModal = () => {
               return (
                 <Button
                   className="text-white flex-col items-center cursor-pointer hover:text-[#f77239]"
-                  variant="ghostWhite"
+                  variant="ghostOrange"
                   size="icon-sm"
                   key={index}
                 >
                   <Icon />
-                  {item.title.toLocaleLowerCase()}
+                  {item.title}
                 </Button>
               );
             })}
