@@ -6,7 +6,8 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Home, BookOpen, LayoutGrid, CirclePlus, User } from "lucide-react";
-
+import CreateLoteModal from "./createModalLotes";
+import { useState } from "react";
 const navegationItems = [
   {
     icon: BookOpen,
@@ -27,73 +28,78 @@ const navegationItems = [
 ];
 
 const MenuModal = () => {
+  const [openModal, setOpenModal] = useState(false);
+  const [openCreateLote, setOpenCreateLote] = useState(false);
   return (
-    <Dialog>
-      {/* BOTÃO QUE ABRE */}
-      <DialogTrigger asChild>
-        <Button
-          variant="ghostWhite"
-          size="icon-sm"
-          className="flex-col text-white"
+    <>
+      <Dialog open={openModal} onOpenChange={setOpenModal}>
+        {/* BOTÃO QUE ABRE */}
+        <DialogTrigger asChild>
+          <Button
+            variant="ghostWhite"
+            size="icon-sm"
+            className="flex-col text-white"
+          >
+            <LayoutGrid />
+            Menu
+          </Button>
+        </DialogTrigger>
+
+        {/* MODAL */}
+        <DialogContent
+          className="
+       fixed
+       bottom-0
+        max-h-[85vh]
+        z-50
+        rounded-t-2xl
+        bg-[#0b0f19]/95
+        backdrop-blur-xl
+        border-t
+        w-full
+        p-0
+      [&>button]:text-white
+      [&>button:hover]:text-[#f77239]
+      
+      "
         >
-          <LayoutGrid />
-          Menu
-        </Button>
-      </DialogTrigger>
-
-      {/* MODAL */}
-      <DialogContent
-        className="
-         fixed
-         bottom-0
-          max-h-[85vh]
-          z-50
-          rounded-t-2xl
-          bg-[#0b0f19]/95
-          backdrop-blur-xl
-          border-t
-          w-full
-          p-0
-        [&>button]:text-white
-        [&>button:hover]:text-[#f77239]
-        
-        "
-      >
-        {/* <div className="fixed z-50 gap-4 p-6 
-        shadow-lg transition ease-in-out 
-        data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:duration-300 
-        data-[state=open]:duration-500 inset-x-0 bottom-0 border-t data-[state=closed]:slide-out-to-bottom 
-        data-[state=open]:slide-in-from-bottom h-[60vh] rounded-t-xl 
-        bg-gradient-to-b from-background to-background/95 backdrop-blur-sm"></div> */}
-        {/* HANDLE */}
-        <div className="flex justify-center pt-3">
-          <div className="h-1 w-12 rounded-full bg-muted/40" />
-        </div>
-        <DialogTitle className="text-white font-ibmPlex font-bold text-center">
-          Menu
-        </DialogTitle>
-
-        {/* CONTEÚDO SCROLLÁVEL */}
-        <div className="px-6 pb-6 overflow-y-auto">
-          <div className="grid grid-cols-2 gap-4 justify-items-center mt-4">
-            {navegationItems.map((item, index) => {
-              const Icon = item.icon;
-              return (
-                <Button
-                  className="text-white flex-col items-center cursor-pointer hover:text-[#f77239]"
-                  variant="ghostOrange"
-                  size="icon-sm"
-                  key={index}
-                >
-                  <Icon />
-                  {item.title}
-                </Button>
-              );
-            })}
+          {/* HANDLE */}
+          <div className="flex justify-center pt-3">
+            <div className="h-1 w-12 rounded-full bg-muted/40" />
           </div>
-        </div>
-      </DialogContent>
-    </Dialog>
+          <DialogTitle className="text-white font-ibmPlex font-bold text-center">
+            Menu
+          </DialogTitle>
+
+          {/* CONTEÚDO SCROLLÁVEL */}
+          <div className="px-6 pb-6 overflow-y-auto">
+            <div className="grid grid-cols-2 gap-4 justify-items-center mt-4">
+              {navegationItems.map((item, index) => {
+                const Icon = item.icon;
+                return (
+                  <Button
+                    className="text-white flex-col items-center cursor-pointer hover:text-[#f77239]"
+                    variant="ghostOrange"
+                    size="icon-sm"
+                    key={index}
+                    onClick={() => {
+                      if (item.title === "Novo Lote") {
+                        setOpenModal(false);
+                        setOpenCreateLote(true);
+                      }
+                    }}
+                  >
+                    <Icon />
+                    {item.title}
+                  </Button>
+                );
+              })}
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
+      <CreateLoteModal open={openCreateLote} onOpenChange={setOpenCreateLote} />
+    </>
   );
 };
 
