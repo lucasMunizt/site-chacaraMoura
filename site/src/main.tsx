@@ -5,7 +5,8 @@ import "./index.css";
 import App from "./App";
 import { Site } from "./components/Common/site";
 import Login from "./plataforma/login";
-import Home from "./plataforma/home";
+import SubLotesPage from "./plataforma/sub-lotes";
+import HomePage from "./plataforma/home-page";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -18,7 +19,11 @@ const router = createBrowserRouter([
       },
       {
         path: "home",
-        element: <Home />,
+        element: <HomePage />,
+      },
+      {
+        path: "sublotes",
+        element: <SubLotesPage />,
       },
     ],
   },
@@ -27,5 +32,5 @@ const router = createBrowserRouter([
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <RouterProvider router={router} />
-  </StrictMode>
+  </StrictMode>,
 );

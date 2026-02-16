@@ -55,11 +55,11 @@ export const Header = () => {
                 animate-delay-[400ms]
                 "
       /> */}
-      {/* <img
-        src="/logo-semfundo.png"
-        className="absolute top-1/12 left-[10%]"
+      <img
+        src="/chacaras-moura-test2.svg"
+        className="absolute top-1/12 left-[5%] w-44"
         alt=""
-      /> */}
+      />
       <h1
         className="
        absolute 
