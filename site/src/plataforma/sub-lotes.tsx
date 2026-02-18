@@ -60,7 +60,7 @@ const SubLotesPage = () => {
     <div className="bg-[#FAF8F5] min-h-screen">
       {/* header para pc */}
       <HeaderPc />
-      <header className="text-white bg-[#121e30] p-4">
+      <header className="text-white bg-[#121e30] p-4 sm:hidden">
         <div className="flex items-center gap-3 mb-2 font-ibmPlex font-medium">
           <img src="/logo-menor.png" alt="" className=" relative top-2 w-24" />
           <h5 className="text-2xl mb-2 font-bold">{nomChacara}</h5>
