@@ -3,8 +3,15 @@ import { User } from "lucide-react";
 import { MapPin, CheckCircle, Clock, ChevronRight, Trash } from "lucide-react";
 import { useState } from "react";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import { DeleteLotes } from "../services/DeleteLotes";
 import Alerta from "./alerta";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { DeleteSubLotes } from "../services/DeleteLotes";
+import AlterarLote from "./alterar-lote";
 export interface LotCardProps {
   status: "disponivel" | "reservado" | "vendido";
   // area: number;
@@ -16,6 +23,8 @@ export interface LotCardProps {
   Vendedorname: string;
   nameChacara: string;
   idLotes: string;
+  subLotes: boolean;
+  idSublote?: string;
 }
 const LotCard = ({
   status,
@@ -24,6 +33,9 @@ const LotCard = ({
   nameChacara,
   NumeroSubLote,
   idLotes,
+  idSublote,
+
+  subLotes = false,
 }: LotCardProps) => {
   const cores = {
     disponivel: "bg-[#00C951]",
@@ -37,17 +49,26 @@ const LotCard = ({
   // }).format(price);
   const [dadosVendidos, setDadosVendidos] = useState(false);
   const [deletar, setDeletar] = useState(false);
+  const [alterarStatus, setAlterarStatus] = useState(false);
   const classebg = cores[status];
-  const tt = async (e: boolean) => {
+  // const [filtroAtivo, setFiltroAtivo] = useState("todos");
+  const deletarLote = async (e: boolean) => {
     setDeletar(e);
+  };
 
-    const exclusao = await DeleteLotes(idLotes);
-    if (exclusao.success) {
-      console.log("Lote excluído com sucesso");
-      setDeletar(false);
+  const deletarSubLote = async () => {
+    const deletar = await DeleteSubLotes(idLotes, NumeroSubLote);
+    console.log("deletar sublote: ", deletar);
+    if (deletar) {
+      alert("SubLote deletado com sucesso!");
+      window.location.reload();
     } else {
-      console.error("Erro ao excluir lote");
+      alert("Erro ao deletar sublote.");
     }
+  };
+
+  const alterarlote = () => {
+    setAlterarStatus(true);
   };
   return (
     <div>
@@ -141,19 +162,53 @@ const LotCard = ({
             </>
           )}
           <div>
-            <button
-              onClick={(e) => {
-                e.stopPropagation();
-                tt(true);
-              }}
-              className="bg-transparent p-2 cursor-pointer flex items-center justify-center gap-2
+            {subLotes === true ? (
+              <div className="mt-3.5 w-full">
+                <DropdownMenu>
+                  <DropdownMenuTrigger className="w-full border rounded-md p-2 bg-[#d2ebda]">
+                    opções
+                  </DropdownMenuTrigger>
+
+                  <DropdownMenuContent className="w-52">
+                    <DropdownMenuItem
+                      className="text-center"
+                      onClick={alterarlote}
+                    >
+                      Alterar status
+                    </DropdownMenuItem>
+
+                    <DropdownMenuItem
+                      className="text-red-500"
+                      onClick={deletarSubLote}
+                    >
+                      Excluir
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              </div>
+            ) : (
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  deletarLote(true);
+                }}
+                className="bg-transparent p-2 cursor-pointer flex items-center justify-center gap-2
               hover:text-white font-ibmPlex font-bold hover:bg-red-500 w-full rounded-2xl"
-            >
-              <Trash size={18} />
-              Excluir Lote
-            </button>
+              >
+                <Trash size={18} />
+                Excluir Lote
+              </button>
+            )}
           </div>
-          <Alerta deletar={deletar} setDeletar={setDeletar} />
+
+          <Alerta deletar={deletar} setDeletar={setDeletar} idLotes={idLotes} />
+          <AlterarLote
+            open={alterarStatus}
+            onOpenChange={setAlterarStatus}
+            id={idSublote}
+            numberLote={NumeroSubLote}
+            idLotes={idLotes}
+          />
         </CardContent>
       </Card>
     </div>

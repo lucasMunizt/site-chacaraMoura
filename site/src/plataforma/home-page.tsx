@@ -24,6 +24,29 @@ const HomePage = () => {
     await DadosLotes(id);
     navigate("/sublotes", { state: { id } });
   };
+
+  // type StatusLote = "disponivel" | "reservado" | "vendido";
+
+  // function calcularStatusLoteamento() {
+  //   // console.log("quantidade de lotes", lotes.lote?.status);
+  //   if (lotes.length === 0) {
+  //     return "disponivel";
+  //   }
+
+  //   const temDisponivel = lotes.some((l) => l.lotes?.status === "disponivel");
+  //   if (temDisponivel) {
+  //     console.log("status", temDisponivel);
+  //     return "disponivel";
+  //   }
+
+  //   const temReservado = lotes.some((l) => l.lotes?.status === "reservado");
+  //   if (temReservado) {
+  //     console.log("status", temReservado);
+  //     return "reservado";
+  //   }
+  //   return "vendido";
+  // }
+
   return (
     <div>
       {/* header pc */}
@@ -46,24 +69,29 @@ const HomePage = () => {
           place-items-center
           max-w-7xl"
         >
-          {lotes?.map((loteamento: Loteamento) => (
-            <div
-              role="button"
-              tabIndex={0}
-              className="cursor-pointer"
-              onClick={() => handleLoteClick(loteamento.id)}
-              key={loteamento.id}
-            >
-              <LotCard
-                nameChacara={loteamento.name}
-                NumeroSubLote={loteamento.quantityLotes}
-                status={"disponivel"}
-                vendedor={""}
-                Vendedorname={""}
-                idLotes={loteamento.id}
-              />
-            </div>
-          ))}
+          {lotes?.map((loteamento: Loteamento) => {
+            // console.log("Status do loteamento", loteamento.name);
+            // const status = calcularStatusLoteamento();
+            return (
+              <div
+                role="button"
+                tabIndex={0}
+                className="cursor-pointer"
+                onClick={() => handleLoteClick(loteamento.id)}
+                key={loteamento.id}
+              >
+                <LotCard
+                  nameChacara={loteamento.name}
+                  NumeroSubLote={loteamento.quantityLotes}
+                  status={"disponivel"}
+                  vendedor={""}
+                  Vendedorname={""}
+                  idLotes={loteamento.id}
+                  subLotes={false}
+                />
+              </div>
+            );
+          })}
         </div>
       </main>
 

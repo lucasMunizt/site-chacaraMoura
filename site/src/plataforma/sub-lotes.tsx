@@ -54,12 +54,32 @@ const SubLotesPage = () => {
       }
     }
     carregar();
-  }, []);
+  }, [id]);
 
   return (
     <div className="bg-[#FAF8F5] min-h-screen">
       {/* header para pc */}
       <HeaderPc />
+      <header className="text-white bg-[#121e30] p-4">
+        <div className="flex items-center gap-3 mb-2 font-ibmPlex font-medium">
+          <img src="/logo-menor.png" alt="" className=" relative top-2 w-24" />
+          <h5 className="text-2xl mb-2 font-bold">{nomChacara}</h5>
+        </div>
+        <div className="flex items-center justify-between gap-2.5 mb-2">
+          <p className="bg-green-600 border-none rounded-2xl p-1.5">
+            Disponiveis{" "}
+            {lotesA?.lotes.filter((l) => l.status === "disponivel").length || 0}
+          </p>
+          <p className="bg-yellow-600 border-none rounded-2xl p-2">
+            Reservados{" "}
+            {lotesA?.lotes.filter((l) => l.status === "reservado").length || 0}
+          </p>
+          <p className="bg-red-600 border-none rounded-2xl p-2">
+            Vendidos{" "}
+            {lotesA?.lotes.filter((l) => l.status === "vendido").length || 0}
+          </p>
+        </div>
+      </header>
 
       {/* status para pc mostrando o contador de lotes */}
       <main className="container mx-auto px-4 py-8">
@@ -200,7 +220,9 @@ const SubLotesPage = () => {
               vendedor={lote.buyer}
               nameChacara={nomChacara}
               NumeroSubLote={lote.numberLote}
-              idLotes={lote.id}
+              idLotes={id} // id do lote, não do
+              subLotes={true}
+              idSublote={lote.id}
             />
           ))}
         </div>
