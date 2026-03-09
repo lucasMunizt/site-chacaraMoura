@@ -5,14 +5,11 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { Home, BookOpen, LayoutGrid, CirclePlus, User } from "lucide-react";
+import { Home, LayoutGrid, CirclePlus, User } from "lucide-react";
 import CreateLoteModal from "./createModalLotes";
 import { useState } from "react";
+import Perfil from "../perfil";
 const navegationItems = [
-  {
-    icon: BookOpen,
-    title: "Lista de Lotes",
-  },
   {
     icon: Home,
     title: "Inicio",
@@ -30,6 +27,7 @@ const navegationItems = [
 const MenuModal = () => {
   const [openModal, setOpenModal] = useState(false);
   const [openCreateLote, setOpenCreateLote] = useState(false);
+  const [abrir, setAbrir] = useState(false);
   return (
     <>
       <Dialog open={openModal} onOpenChange={setOpenModal}>
@@ -47,6 +45,7 @@ const MenuModal = () => {
 
         {/* MODAL */}
         <DialogContent
+          closeInconColor="white"
           className="
        fixed
        bottom-0
@@ -73,7 +72,7 @@ const MenuModal = () => {
 
           {/* CONTEÚDO SCROLLÁVEL */}
           <div className="px-6 pb-6 overflow-y-auto">
-            <div className="grid grid-cols-2 gap-4 justify-items-center mt-4">
+            <div className="grid grid-cols-2 gap-3 justify-items-center mt-4">
               {navegationItems.map((item, index) => {
                 const Icon = item.icon;
                 return (
@@ -86,6 +85,9 @@ const MenuModal = () => {
                       if (item.title === "Novo Lote") {
                         setOpenModal(false);
                         setOpenCreateLote(true);
+                      } else if (item.title === "Perfil") {
+                        setAbrir(true);
+                        setOpenModal(false);
                       }
                     }}
                   >
@@ -99,6 +101,8 @@ const MenuModal = () => {
         </DialogContent>
       </Dialog>
       <CreateLoteModal open={openCreateLote} onOpenChange={setOpenCreateLote} />
+
+      <Perfil abrir={abrir} setAbrir={setAbrir} />
     </>
   );
 };

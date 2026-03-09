@@ -201,14 +201,15 @@ const SubLotesPage = () => {
         <div
           className=" 
           mt-6 
-          mb-20
+          mb-26
           mx-auto
           grid
           grid-cols-1
           sm:grid-cols-2
-          md:grid-cols-3
-          lg:grid-cols-4
+          md:grid-cols-2
+          lg:grid-cols-3
           gap-6
+          sm:mt-2
           place-items-center
           max-w-7xl"
         >

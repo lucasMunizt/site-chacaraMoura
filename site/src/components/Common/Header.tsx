@@ -3,7 +3,9 @@ import { FaWhatsapp } from "react-icons/fa";
 import AOS from "aos";
 import "aos/dist/aos.css";
 import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 export const Header = () => {
+  const navigate = useNavigate();
   useEffect(() => {
     AOS.init({
       duration: 1000, // duração da animação
@@ -13,17 +15,6 @@ export const Header = () => {
   return (
     <header className="relative w-full h-full overflow-x-hidden">
       {/* Imagem de fundo */}
-      {/* <img
-        src="/img-fundo.png"
-        alt="imagem de fundo header"
-        className="
-                w-full
-                h-90
-                 object-cover
-                 object-center
-                 brightness-75
-                  md:h-full"
-      /> */}
       <img
         src="/hero-chacara.jpg"
         alt="imagem de fundo header"
@@ -35,26 +26,6 @@ export const Header = () => {
                  brightness-75
                   md:h-full"
       />
-      {/* Imagem sobreposta */}
-      {/* <img
-        src="/agricultor-aqui.png"
-        alt="frase sobreposta"
-        className="
-                absolute
-                top-1/2
-                left-[10%]
-                -translate-y-1/2
-                w-60
-                h-auto
-                lg:w-lg lg:left-[25%]
-                md:left-[35%]
-                sm:left-[30%] sm:w-80
-                xl:left-[33%]
-                animate-fade-down
-                animate-duration-[600ms] 
-                animate-delay-[400ms]
-                "
-      /> */}
       <img
         src="/chacaras-moura-test2.svg"
         className="absolute top-1/12 left-[5%] w-44"
@@ -83,11 +54,6 @@ export const Header = () => {
       >
         Agricultor aqui você <br /> têm valor!
       </h1>
-      {/* <img
-        src="/logo-semfundo.png"
-        className="absolute top-1/2 w-3xs left-[10%] lg:left-[25%] xl:left-[45%]"
-        alt=""
-      /> */}
       <div
         className="
          absolute
@@ -103,8 +69,6 @@ export const Header = () => {
          md:right-8
         "
       >
-        {/* <Instagram className="cursor-pointer" color="white" size={20} />
-        <Facebook className="cursor-pointer" color="white" size={20} /> */}
         <a
           href="https://wa.me/93991539111"
           target="_blank"
@@ -115,8 +79,11 @@ export const Header = () => {
           
           "
         >
-          <FaWhatsapp className="cursor-pointer text-white md:text-black" size={24}/>
-         <p className="hidden md:flex">Entrar em contato</p> 
+          <FaWhatsapp
+            className="cursor-pointer text-white md:text-black"
+            size={24}
+          />
+          <p className="hidden md:flex">Entrar em contato</p>
         </a>
         <div
           className="flex items-center cursor-pointer gap-1 
@@ -124,7 +91,14 @@ export const Header = () => {
         duration-300 hover:-translate-y-1 border-none rounded-2xl"
         >
           <UserRound className="cursor-pointer" color="black" size={20} />
-          <p className="text-black font-medium font-ibmPlex">Plataforma</p>
+          <a
+            onClick={() => {
+              navigate("/login");
+            }}
+            className="text-black font-medium font-ibmPlex"
+          >
+            Plataforma
+          </a>
         </div>
       </div>
     </header>

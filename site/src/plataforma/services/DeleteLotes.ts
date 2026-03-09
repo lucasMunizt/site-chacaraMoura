@@ -1,4 +1,5 @@
 export async function DeleteLotes(id: string) {
+  const roleUser = localStorage.getItem("role");
   try {
     const url =
       import.meta.env.VITE_URL_CONEXAO + "loteamentos/" + id + "/lotes";
@@ -8,6 +9,7 @@ export async function DeleteLotes(id: string) {
         "Content-Type": "application/json",
       },
     });
+    if(roleUser === "gerente") throw new Error("Error ao deletar acesso insuficente");
     if (!response.ok) throw new Error("Failed to delete lote");
     const data = await response.json();
     return data;
@@ -17,6 +19,7 @@ export async function DeleteLotes(id: string) {
 }
 
 export async function DeleteSubLotes (id: string, numeroSubLote: number) {
+  const roleUser = localStorage.getItem("role");
   try{
     const url = import.meta.env.VITE_URL_CONEXAO + "loteamentos/" + id + "/lotes/" + numeroSubLote;
     console.log("url", url);
@@ -27,6 +30,7 @@ export async function DeleteSubLotes (id: string, numeroSubLote: number) {
         "Content-Type": "application/json",
       },
     });
+    if(roleUser === "gerente") throw new Error("Error ao deletar acesso insuficente");
     if (!response.ok) throw new Error("Failed to delete sublote");
     const data = await response.json();
     return data;

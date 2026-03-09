@@ -12,13 +12,10 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { DeleteSubLotes } from "../services/DeleteLotes";
 import AlterarLote from "./alterar-lote";
+import AlertaErro from "./alerta-erro";
 export interface LotCardProps {
   status: "disponivel" | "reservado" | "vendido";
-  // area: number;
-  // price: number;
-  // data: string;
   vendedor: string;
-  // phone: string;
   NumeroSubLote: number;
   Vendedorname: string;
   nameChacara: string;
@@ -42,16 +39,12 @@ const LotCard = ({
     reservado: "bg-[#CFAF3E]",
     vendido: "bg-[#FB2C36]",
   };
-
-  // const valorFormatado = new Intl.NumberFormat("pt-BR", {
-  //   style: "currency",
-  //   currency: "BRL",
-  // }).format(price);
   const [dadosVendidos, setDadosVendidos] = useState(false);
   const [deletar, setDeletar] = useState(false);
   const [alterarStatus, setAlterarStatus] = useState(false);
+  const [erroDeletar, setErroDeletar] = useState(false);
+  const role = localStorage.getItem("role");
   const classebg = cores[status];
-  // const [filtroAtivo, setFiltroAtivo] = useState("todos");
   const deletarLote = async (e: boolean) => {
     setDeletar(e);
   };
@@ -63,7 +56,7 @@ const LotCard = ({
       alert("SubLote deletado com sucesso!");
       window.location.reload();
     } else {
-      alert("Erro ao deletar sublote.");
+      setErroDeletar(true);
     }
   };
 
@@ -98,35 +91,24 @@ const LotCard = ({
             </p>
           </div>
         </CardHeader>
-        {/* <div className="flex justify-between items-center mb-2 font-ibmPlex font-normal">
-          <p className="flex items-center gap-0.5">
-            <Ruler className="w-4 h-4 mr-1" /> {area.toFixed(1)} m²
-          </p>
-           <p>{valorFormatado}</p> 
-          </div> 
-         */}
-        {/* Linha do card */}
         <div className="w-full border-1 p-0 border-green-600" />
 
         <CardContent>
           {/* botão de mostrar dados vendidos */}
-          {status === "vendido" && (
+          {subLotes && status === "vendido" && (
             <>
               <div className="flex items-center gap-2 justify-start p-0">
-                <div className="flex  justify-end items-center gap-7 w-full">
-                  {/* <p className="font-light mb-2 relative right-5">
-                    Vendido em {data}
-                  </p> */}
+                <div className="flex justify-end items-center gap-7 w-full">
                   <button
                     onClick={() => {
                       setDadosVendidos((prev) => !prev);
                     }}
                     className={`
-                                w-6 h-6 p-0.5 relative -top-1 rounded-full
-                                flex items-center justify-center
-                                transition-all duration-300
-                                ${dadosVendidos ? "bg-[#3b3737]" : "bg-[#d8d8d8]"}
-                              `}
+            w-6 h-6 p-0.5 relative -top-1 rounded-full
+            flex items-center justify-center
+            transition-all duration-300
+            ${dadosVendidos ? "bg-[#3b3737]" : "bg-[#d8d8d8]"}
+          `}
                   >
                     <ChevronRight
                       className={`
@@ -137,17 +119,15 @@ const LotCard = ({
                   </button>
                 </div>
               </div>
+
               {dadosVendidos && (
                 <>
                   <div className="relative right-5 mb-2.5">
-                    <p>comprador</p>
+                    <p>Comprador</p>
                     <p className="flex items-center gap-1">
                       <User className="w-4 h-4 mr-1" color="#00C951" />
                       {vendedor}
                     </p>
-                    {/* <p className="flex items-center gap-1">
-                      <Phone className="w-4 h-4 mr-1" /> {phone}
-                    </p> */}
                   </div>
 
                   <div className="relative right-5">
@@ -161,8 +141,24 @@ const LotCard = ({
               )}
             </>
           )}
+
+          <Alerta deletar={deletar} setDeletar={setDeletar} idLotes={idLotes} />
+          <AlterarLote
+            open={alterarStatus}
+            onOpenChange={setAlterarStatus}
+            id={idSublote}
+            numberLote={NumeroSubLote}
+            idLotes={idLotes}
+          />
+          <AlertaErro
+            deletar={erroDeletar}
+            setDeletar={setErroDeletar}
+            ErroTitulo="deletar"
+          />
+        </CardContent>
+        {role === "admin" && (
           <div>
-            {subLotes === true ? (
+            {subLotes ? (
               <div className="mt-3.5 w-full">
                 <DropdownMenu>
                   <DropdownMenuTrigger className="w-full border rounded-md p-2 bg-[#d2ebda]">
@@ -193,23 +189,14 @@ const LotCard = ({
                   deletarLote(true);
                 }}
                 className="bg-transparent p-2 cursor-pointer flex items-center justify-center gap-2
-              hover:text-white font-ibmPlex font-bold hover:bg-red-500 w-full rounded-2xl"
+        hover:text-white font-ibmPlex font-bold hover:bg-red-500 w-full rounded-2xl"
               >
                 <Trash size={18} />
                 Excluir Lote
               </button>
             )}
           </div>
-
-          <Alerta deletar={deletar} setDeletar={setDeletar} idLotes={idLotes} />
-          <AlterarLote
-            open={alterarStatus}
-            onOpenChange={setAlterarStatus}
-            id={idSublote}
-            numberLote={NumeroSubLote}
-            idLotes={idLotes}
-          />
-        </CardContent>
+        )}
       </Card>
     </div>
   );

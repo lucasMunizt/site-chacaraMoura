@@ -9,7 +9,7 @@ interface CreateLoteModalProps {
 const CreateLoteModal = ({ open, onOpenChange }: CreateLoteModalProps) => {
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-h-[90vh] overflow-y-auto bg-[#121e30]">
+      <DialogContent closeInconColor="black" className="max-h-[90vh] overflow-y-auto bg-white">
         <DialogTitle className="text-white">Novo Lote</DialogTitle>
         <CreateLote />
       </DialogContent>

@@ -25,35 +25,15 @@ const HomePage = () => {
     navigate("/sublotes", { state: { id } });
   };
 
-  // type StatusLote = "disponivel" | "reservado" | "vendido";
-
-  // function calcularStatusLoteamento() {
-  //   // console.log("quantidade de lotes", lotes.lote?.status);
-  //   if (lotes.length === 0) {
-  //     return "disponivel";
-  //   }
-
-  //   const temDisponivel = lotes.some((l) => l.lotes?.status === "disponivel");
-  //   if (temDisponivel) {
-  //     console.log("status", temDisponivel);
-  //     return "disponivel";
-  //   }
-
-  //   const temReservado = lotes.some((l) => l.lotes?.status === "reservado");
-  //   if (temReservado) {
-  //     console.log("status", temReservado);
-  //     return "reservado";
-  //   }
-  //   return "vendido";
-  // }
-
   return (
     <div>
       {/* header pc */}
       <HeaderPc />
       {/* conteudo da home page */}
       <main className="mt-2.5 ml-2">
-        <h1 className="font-ibmPlex font-bold  text-2xl">Lotes</h1>
+        <h1 className="font-ibmPlex font-bold sm:text-left text-center sm:ml-10 text-2xl">
+          Lotes
+        </h1>
         <div
           className="   
           mt-6 
@@ -62,16 +42,14 @@ const HomePage = () => {
           grid
           grid-cols-1
           sm:grid-cols-2
-          md:grid-cols-3
-          lg:grid-cols-4
+          md:grid-cols-2
+          lg:grid-cols-3
           gap-6
           sm:mt-2
           place-items-center
           max-w-7xl"
         >
           {lotes?.map((loteamento: Loteamento) => {
-            // console.log("Status do loteamento", loteamento.name);
-            // const status = calcularStatusLoteamento();
             return (
               <div
                 role="button"
@@ -83,7 +61,7 @@ const HomePage = () => {
                 <LotCard
                   nameChacara={loteamento.name}
                   NumeroSubLote={loteamento.quantityLotes}
-                  status={"disponivel"}
+                  status={loteamento.loteStatus}
                   vendedor={""}
                   Vendedorname={""}
                   idLotes={loteamento.id}

@@ -15,6 +15,7 @@ type Lote = {
 type Loteamento = {
   id: string;
   name: string;
+  loteStatus: "disponivel" | "reservado" | "vendido";
   quantityLotes: number;
   lotes: Lote[];
 };

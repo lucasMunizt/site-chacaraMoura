@@ -7,6 +7,7 @@ import { Site } from "./components/Common/site";
 import Login from "./plataforma/login";
 import SubLotesPage from "./plataforma/sub-lotes";
 import HomePage from "./plataforma/home-page";
+import PrivateRoute from "./plataforma/services/PrivateRouter";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -18,12 +19,17 @@ const router = createBrowserRouter([
         element: <Login />,
       },
       {
-        path: "home",
-        element: <HomePage />,
-      },
-      {
-        path: "sublotes",
-        element: <SubLotesPage />,
+        element: <PrivateRoute />,
+        children: [
+          {
+            path: "home",
+            element: <HomePage />,
+          },
+          {
+            path: "sublotes",
+            element: <SubLotesPage />,
+          },
+        ],
       },
     ],
   },
