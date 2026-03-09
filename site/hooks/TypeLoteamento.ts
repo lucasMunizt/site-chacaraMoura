@@ -20,4 +20,4 @@ type Loteamento = {
   lotes: Lote[];
 };
 
-export { Lote, Loteamento };
+export type { Lote, Loteamento };
