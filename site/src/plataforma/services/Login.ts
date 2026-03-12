@@ -1,3 +1,4 @@
+
 //criação do usuario
 export default async function CreateUser(
   name: string,
@@ -32,7 +33,6 @@ export default async function CreateUser(
     console.error("erro ao criar usuario", error);
   }
 }
-
 export async function Logout(uuid: string) {
   try {
     const url = import.meta.env.VITE_URL_CONEXAO + "logout";

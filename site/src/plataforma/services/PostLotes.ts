@@ -1,31 +1,45 @@
-
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 // função para fazer Login
 async function LoginPlataforma(email: string, password: string) {
   const url = import.meta.env.VITE_URL_CONEXAO + "user/login";
 
   try {
-    const loginData = {
+    const auth = getAuth();
+
+    // login no firebase
+    const userCredential = await signInWithEmailAndPassword(
+      auth,
       email,
       password,
-    };
+    );
+
+    // pegar token
+    const token = await userCredential.user.getIdToken();
+
+    // enviar token para backend
     const response = await fetch(url, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(loginData),
+      body: JSON.stringify({ token }),
     });
 
     if (!response.ok) {
       throw new Error(`Erro ao fazer login: ${response.status}`);
     }
-    return await response.json();
+
+    const data = await response.json();
+
+    return data;
   } catch (error) {
     console.error("Erro ao fazer login:", error);
     throw error;
   }
 }
+
 export default LoginPlataforma;
+
 // Função para criar lotes
 export async function CreateLotes(
   quantityLotes: number,
