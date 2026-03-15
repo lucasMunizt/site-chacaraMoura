@@ -13,7 +13,7 @@ const HomePage = () => {
     async function fetchLotes() {
       try {
         const data = await GetLotes();
-        setLotes(data);
+        setLotes(Array.isArray(data) ? data : []);
       } catch (error) {
         console.error("Error fetching lotes data:", error);
       }

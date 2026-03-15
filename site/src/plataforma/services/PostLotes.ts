@@ -10,7 +10,6 @@ async function LoginPlataforma(email: string, password: string) {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        
       },
       body: JSON.stringify(dados),
     });
