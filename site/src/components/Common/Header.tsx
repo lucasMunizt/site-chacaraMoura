@@ -28,7 +28,7 @@ export const Header = () => {
       />
       <img
         src="/chacaras-moura-test2.svg"
-        className="absolute top-1/12 left-[5%] w-44"
+        className="absolute top-1 md:top-1/12 lef-[90%] md:left-[5%] md:w-44"
         alt=""
       />
       <h1

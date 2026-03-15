@@ -36,15 +36,6 @@ interface CreateUser {
   setOpen: (value: boolean) => void;
 }
 
-// type FormData = {
-//   name: string;
-//   lastName: string;
-//   email: string;
-//   role: string;
-//   password: string;
-//   passwordConfirm: string;
-// };
-
 type FormData = z.infer<typeof formSchema>;
 const formSchema = z
   .object({
@@ -78,13 +69,13 @@ export default function CreateUserDialog({ open, setOpen }: CreateUser) {
 
   const onSubmit = async (data: FormData) => {
     try {
+     
       const response = await CreateUser(
         data.name,
         data.lastName,
         data.email,
-        data.role,
         data.password,
-        data.passwordConfirm,
+        data.role,
       );
 
       setOpen(false);

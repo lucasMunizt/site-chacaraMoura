@@ -50,13 +50,14 @@ const LotCard = ({
   };
 
   const deletarSubLote = async () => {
-    const deletar = await DeleteSubLotes(idLotes, NumeroSubLote);
-    console.log("deletar sublote: ", deletar);
-    if (deletar) {
+    try {
+      await DeleteSubLotes(idLotes, NumeroSubLote);
+
       alert("SubLote deletado com sucesso!");
       window.location.reload();
-    } else {
+    } catch (error) {
       setErroDeletar(true);
+      console.error("erro ao deletar", error);
     }
   };
 

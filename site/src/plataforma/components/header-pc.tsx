@@ -38,7 +38,13 @@ const HeaderPc = () => {
     <header className="bg-card border-b border-border hidden sm:block">
       <div className="container mx-auto px-4 py-8">
         <div className="flex justify-between">
-          <div className="flex gap-3 mb-2">
+          <div
+            role="button"
+            onClick={() => {
+              navigate("/home");
+            }}
+            className="flex gap-3 mb-2 cursor-pointer"
+          >
             <img src="/chacaras-moura-nova.jpg" alt="" className="" />
 
             <h1 className="font-display flex items-center text-2xl sm:hidden md:flex lg:text-4xl  font-bold text-foreground">

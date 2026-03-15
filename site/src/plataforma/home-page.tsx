@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import HeaderPc from "./components/header-pc";
 import { useNavigate } from "react-router-dom";
-import DadosLotes, { GetLotes } from "./services/GetLotes";
+import { GetLotes } from "./services/GetLotes";
 import { Loteamento } from "../../hooks/TypeLoteamento";
 import LotCard from "./components/LotCard";
 import Navegador from "./components/navegador";
@@ -20,9 +20,8 @@ const HomePage = () => {
     }
     fetchLotes();
   }, []);
-  const handleLoteClick = async (id: string) => {
-    await DadosLotes(id);
-    navigate("/sublotes", { state: { id } });
+  const handleLoteClick = async (id: string, nameLote: string) => {
+    navigate("/sublotes", { state: { id, nameLote } });
   };
 
   return (
@@ -31,9 +30,12 @@ const HomePage = () => {
       <HeaderPc />
       {/* conteudo da home page */}
       <main className="mt-2.5 ml-2">
-        <h1 className="font-ibmPlex font-bold sm:text-left text-center sm:ml-10 text-2xl">
-          Lotes
-        </h1>
+        <div className="sm:hidden flex items-center border-b border-border justify-center">
+          <img src="/logo-menor.png" className="relative top-3 w-24" />
+          <h1 className="font-ibmPlex font-bold sm:text-left text-center sm:ml-10 text-2xl">
+            Lotes
+          </h1>
+        </div>
         <div
           className="   
           mt-6 
@@ -55,13 +57,13 @@ const HomePage = () => {
                 role="button"
                 tabIndex={0}
                 className="cursor-pointer"
-                onClick={() => handleLoteClick(loteamento.id)}
+                onClick={() => handleLoteClick(loteamento.id, loteamento.name)}
                 key={loteamento.id}
               >
                 <LotCard
                   nameChacara={loteamento.name}
-                  NumeroSubLote={loteamento.quantityLotes}
-                  status={loteamento.loteStatus}
+                  NumeroSubLote={loteamento.quantity_lotes}
+                  status={loteamento.status}
                   vendedor={""}
                   Vendedorname={""}
                   idLotes={loteamento.id}

@@ -2,23 +2,32 @@
 export async function GetLotes() {
   const url = import.meta.env.VITE_URL_CONEXAO + "loteamentos";
   try {
-    const response = await fetch(url);
-    if (!response.ok) throw new Error("Failed to fetch lotes data");
-    const data = await response.json();
-    return data;
+    const response = await fetch(url, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    });
+    return response.json();
   } catch (error) {
     console.error("Error fetching lotes data:", error);
   }
 }
 // Pega os sublotes pelo o id do loteamento
 async function DadosLotes(id: string) {
-  const url = import.meta.env.VITE_URL_CONEXAO + "loteamento/" + id;
+  const url = import.meta.env.VITE_URL_CONEXAO + "loteamentos/lotes/" + id;
 
   try {
-    // console.log("url", url);
-    const response = await fetch(url);
-    if (!response.ok) throw new Error("Failed to fetch lotes data");
-    const data = await response.json();
+    const response = await fetch(url, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    });
+    const data = response.json();
+
     return data;
   } catch (error) {
     console.error("Error fetching lotes data:", error);
@@ -27,21 +36,18 @@ async function DadosLotes(id: string) {
 }
 export default DadosLotes;
 
-// Busca os lotes pelo nome
-export async function DadosBuscaInput(input: string) {
-  const textLimpo = input
-    .toLowerCase()
-    .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "")
-    .replace(/[^a-zA-Z0-9\s]/g, "");
-  const url = import.meta.env.VITE_URL_CONEXAO + "loteamentos/" + textLimpo;
-  console.log("url", url);
+export async function getUser() {
   try {
-    const response = await fetch(url);
-    if (!response.ok) throw new Error("Failed to fetch lotes data");
-    const data = await response.json();
-    return data;
+    const url = import.meta.env.VITE_URL_CONEXAO + "user";
+    const response = await fetch(url, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    });
+    return response.json();
   } catch (error) {
-    console.error("Error fetching lotes data:", error);
+    console.error("Error fetching user data:", error);
   }
 }

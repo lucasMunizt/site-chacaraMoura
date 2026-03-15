@@ -1,37 +1,24 @@
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 // função para fazer Login
 async function LoginPlataforma(email: string, password: string) {
-  const url = import.meta.env.VITE_URL_CONEXAO + "user/login";
-
+  const url = import.meta.env.VITE_URL_CONEXAO + "login";
+  const dados = {
+    email,
+    password,
+  };
   try {
-    const auth = getAuth();
-
-    // login no firebase
-    const userCredential = await signInWithEmailAndPassword(
-      auth,
-      email,
-      password,
-    );
-
-    // pegar token
-    const token = await userCredential.user.getIdToken();
-
-    // enviar token para backend
     const response = await fetch(url, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        
       },
-      body: JSON.stringify({ token }),
+      body: JSON.stringify(dados),
     });
-
     if (!response.ok) {
-      throw new Error(`Erro ao fazer login: ${response.status}`);
+      throw new Error("erro ao fazer login");
     }
 
-    const data = await response.json();
-
-    return data;
+    return response.json();
   } catch (error) {
     console.error("Erro ao fazer login:", error);
     throw error;
@@ -41,29 +28,25 @@ async function LoginPlataforma(email: string, password: string) {
 export default LoginPlataforma;
 
 // Função para criar lotes
-export async function CreateLotes(
-  quantityLotes: number,
-  nameLote: string,
-  area: string,
-) {
-  const roleUser = localStorage.getItem("role");
-  const url = import.meta.env.VITE_URL_CONEXAO + "criandolote";
+export async function CreateLotes(quantityLotes: number, nameLote: string) {
+  // const roleUser = localStorage.getItem("role");
+  const url = import.meta.env.VITE_URL_CONEXAO + "createlote";
   console.log("post url", url);
   try {
     const loteData = {
       quantityLotes,
       name: nameLote,
-      area,
     };
     const response = await fetch(url, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
       body: JSON.stringify(loteData),
     });
-    if (roleUser === "gerente")
-      throw new Error("Error ao criar! acesso insuficente");
+    // if (roleUser === "gerente")
+    //   throw new Error("Error ao criar! acesso insuficente");
     if (!response.ok) {
       throw new Error(`Erro ao criar lote: ${response.status}`);
     }

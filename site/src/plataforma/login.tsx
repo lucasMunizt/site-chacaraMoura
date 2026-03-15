@@ -23,11 +23,13 @@ const Login = () => {
     try {
       const response = await LoginPlataforma(email, password);
       if (response) {
-        localStorage.setItem("token", response.authenticated);
-        localStorage.setItem("name", response.name);
-        localStorage.setItem("uid", response.id);
-        localStorage.setItem("role", response.role); // admin ou gerente
-        console.log("response token", response.role);
+        const valorAuthentication = "true";
+        localStorage.setItem("token", response.result.token);
+        localStorage.setItem("name", response.result.user.name);
+        localStorage.setItem("uid", response.result.user.id);
+        localStorage.setItem("role", response.result.user.role);
+        localStorage.setItem("authetication", valorAuthentication);
+        console.log("role:", response.result.user.role);
         navigate("/home");
       }
     } catch (error) {

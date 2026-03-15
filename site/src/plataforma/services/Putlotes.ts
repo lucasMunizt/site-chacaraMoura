@@ -9,20 +9,22 @@ export async function AlterarStatusSubLote(
   try {
     const url =
       import.meta.env.VITE_URL_CONEXAO +
-      "loteamentos/edite/" +
+      "loteamentos/lotes/sublotes/" +
       idLotes +
-      "/lotes/" +
-      idSublote;
+      "/editar/" +
+      numberLote;
+    console.log("url: ", url);
+
     const response = await fetch(url, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
       body: JSON.stringify({
-        numberLote,
         status,
-        buyer,
-        seller,
+        buyerName: buyer,
+        sellerName: seller,
       }),
     });
     if (!response.ok) throw new Error("Failed to update sublote");

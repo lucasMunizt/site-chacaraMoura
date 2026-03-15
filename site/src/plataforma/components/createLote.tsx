@@ -17,19 +17,18 @@ import AlertaErro from "./alerta-erro";
 const CreateLote = () => {
   const [nameLote, setNameLote] = useState("");
   const [numberLote, setNumberLote] = useState(0);
-  const [area, setArea] = useState("");
+  // const [area, setArea] = useState("");
   const [erroCriar, seterroCriar] = useState(false);
   const form = useForm({
     defaultValues: {
       numberLote,
       nameLote: "",
-      area: "",
     },
   });
 
   const onSubmit = async () => {
     try {
-      await CreateLotes(numberLote, nameLote, area);
+      await CreateLotes(numberLote, nameLote);
       window.location.reload();
     } catch (error) {
       seterroCriar(true);
@@ -86,7 +85,7 @@ const CreateLote = () => {
         />
 
         {/* ÁREA */}
-        <FormField
+        {/* <FormField
           control={form.control}
           name="area"
           render={({ field }) => (
@@ -107,7 +106,7 @@ const CreateLote = () => {
               <FormMessage />
             </FormItem>
           )}
-        />
+        /> */}
 
         <Button type="submit" className="w-full bg-[#00C951]">
           Criar

@@ -1,12 +1,9 @@
-// import LotCard from "./components/LotCard";
 import Navegador from "./components/navegador";
 import StatusCard from "./components/statusCard";
 import { MapPin, CheckCircle, Clock } from "lucide-react";
 import LotCard from "./components/LotCard";
-// import { LotCardProps } from "./components/LotCard"
-import { Lote, Loteamento } from "../../hooks/TypeLoteamento";
-import getLotes from "./services/GetLotes";
-import { useEffect, useState } from "react";
+import { Lote } from "../../hooks/TypeLoteamento";
+import { useEffect, useMemo, useState } from "react";
 import {
   Select,
   SelectContent,
@@ -16,17 +13,16 @@ import {
 import { SelectValue } from "@radix-ui/react-select";
 import HeaderPc from "./components/header-pc";
 import { useLocation } from "react-router-dom";
+import DadosLotes from "./services/GetLotes";
 
 const SubLotesPage = () => {
   type Filtro = "todos" | "disponivel" | "reservado" | "vendido";
+
   const location = useLocation();
-  //id navigate
-  const { id } = location.state as { id: string };
+  const { id, nameLote } = location.state as { id: string; nameLote: string };
 
   const [filtroAtivo, setFiltroAtivo] = useState<Filtro>("todos");
-  // hook especifico para buscar os lotes
-  const [lotesA, setLotes] = useState<Loteamento | null>(null);
-  const [nomChacara, setNomChacara] = useState<string>("");
+  const [lotes, setLotes] = useState<Lote[]>([]);
   const cores = {
     todos: "bg-[#31814F] text-white",
     disponiveis: "bg-[#599970] text-white",
@@ -34,201 +30,173 @@ const SubLotesPage = () => {
     vendidos: "bg-[#8B2C2C] text-white",
   };
 
-  const lotesFiltrados =
-    lotesA?.lotes
-      .filter((lote) => {
-        if (filtroAtivo === "todos") return true;
-        return lote.status === filtroAtivo;
-      })
-      .sort((a, b) => a.numberLote - b.numberLote) || [];
-
+  // buscar lotes
   useEffect(() => {
     async function carregar() {
       try {
-        console.log("id sublotes: ", id);
-        const data = await getLotes(id);
-        setLotes(data);
-        setNomChacara(data?.name || "");
+        const data = await DadosLotes(id);
+        setLotes(data || []);
       } catch (err) {
         console.error(err);
       }
     }
+
     carregar();
   }, [id]);
 
+  // contadores (calculado apenas quando lotes muda)
+  const contadores = useMemo(() => {
+    return {
+      todos: lotes.length,
+      disponivel: lotes.filter((l) => l.status === "disponivel").length,
+      reservado: lotes.filter((l) => l.status === "reservado").length,
+      vendido: lotes.filter((l) => l.status === "vendido").length,
+    };
+  }, [lotes]);
+
+  // filtro de lotes
+  const lotesFiltrados = useMemo(() => {
+    return lotes
+      .filter((lote) => {
+        if (filtroAtivo === "todos") return true;
+        return lote.status === filtroAtivo;
+      })
+      .sort((a, b) => a.number_sublots - b.number_sublots);
+  }, [lotes, filtroAtivo]);
+
   return (
     <div className="bg-[#FAF8F5] min-h-screen">
-      {/* header para pc */}
       <HeaderPc />
-      <header className="text-white bg-[#121e30] p-4 sm:hidden">
-        <div className="flex items-center gap-3 mb-2 font-ibmPlex font-medium">
-          <img src="/logo-menor.png" alt="" className=" relative top-2 w-24" />
-          <h5 className="text-2xl mb-2 font-bold">{nomChacara}</h5>
+
+      {/* HEADER MOBILE */}
+      <header className="text-black bg-[#f5fcf7] p-4 border-b border-border sm:hidden">
+        <div className="flex items-center justify-center  mb-2 font-ibmPlex font-medium">
+          <img src="/logo-menor.png" className="relative top-2 w-24" />
+          <h5 className="text-2xl mb-2 font-bold">{nameLote}</h5>
         </div>
-        <div className="flex items-center justify-between gap-2.5 mb-2">
-          <p className="bg-green-600 border-none rounded-2xl p-1.5">
-            Disponiveis{" "}
-            {lotesA?.lotes.filter((l) => l.status === "disponivel").length || 0}
+
+        <div className="flex justify-between gap-2.5 mb-2">
+          <p className="bg-green-600 rounded-2xl p-1.5 text-white">
+            Disponíveis ({contadores.disponivel})
           </p>
-          <p className="bg-yellow-600 border-none rounded-2xl p-2">
-            Reservados{" "}
-            {lotesA?.lotes.filter((l) => l.status === "reservado").length || 0}
+
+          <p className="bg-yellow-600 rounded-2xl p-2 text-white">
+            Reservados ({contadores.reservado})
           </p>
-          <p className="bg-red-600 border-none rounded-2xl p-2">
-            Vendidos{" "}
-            {lotesA?.lotes.filter((l) => l.status === "vendido").length || 0}
+
+          <p className="bg-red-600 rounded-2xl p-2 text-white">
+            Vendidos ({contadores.vendido})
           </p>
         </div>
       </header>
 
-      {/* status para pc mostrando o contador de lotes */}
+      {/* STATUS PC */}
       <main className="container mx-auto px-4 py-8">
         <div className="grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8 hidden sm:grid">
           <StatusCard
             title="Lotes Vendidos"
-            colorText="primeira-cor"
-            value={
-              lotesA?.lotes.filter((l) => l.status === "vendido").length || 0
-            }
+            value={contadores.vendido}
             color="primeira"
             icon={<CheckCircle size={24} />}
+            colorText="primeira-cor"
           />
+
           <StatusCard
             title="Disponíveis"
-            colorText="terceira-cor"
-            value={
-              lotesA?.lotes.filter((l) => l.status === "disponivel").length || 0
-            }
+            value={contadores.disponivel}
             icon={<MapPin className="w-6 h-6" />}
             color="segunda"
+            colorText="segunda-cor"
           />
+
           <StatusCard
             title="Reservados"
-            colorText="segunda-cor"
-            value={
-              lotesA?.lotes.filter((l) => l.status === "reservado").length || 0
-            }
+            value={contadores.reservado}
             icon={<Clock className="w-6 h-6" />}
             color="terceira"
+            colorText="terceira-cor"
           />
         </div>
 
-        {/* Filtros de status para pc */}
+        {/* FILTROS PC */}
         <div className="sm:block hidden">
-          <div className="grid grid-cols-2 gap-1.5 text-center font-ibmPlex text-black sm:flex">
+          <div className="flex gap-2 text-center font-ibmPlex">
             <button
               onClick={() => setFiltroAtivo("todos")}
-              className={`p-2 rounded-2xl transition  border-[#a5a5a5] border
-              ${filtroAtivo === "todos" ? cores.todos : "bg-[#ffffff]"}`}
+              className={`p-2 rounded-2xl border ${
+                filtroAtivo === "todos" ? cores.todos : ""
+              }`}
             >
-              Todos{" "}
-              <span className="p-1 rounded-2xl">
-                {lotesA?.lotes.length || 0}
-              </span>
+              Todos ({contadores.todos})
             </button>
 
             <button
               onClick={() => setFiltroAtivo("disponivel")}
-              className={`p-2 rounded-2xl transition
-              ${
-                filtroAtivo === "disponivel"
-                  ? cores.disponiveis
-                  : "border-[#a5a5a5] border"
+              className={`p-2 rounded-2xl border ${
+                filtroAtivo === "disponivel" ? cores.disponiveis : ""
               }`}
             >
-              Disponíveis{" "}
-              <span className="p-1">
-                {lotesA?.lotes.filter((l) => l.status === "disponivel")
-                  .length || 0}
-              </span>
+              Disponíveis ({contadores.disponivel})
             </button>
 
             <button
               onClick={() => setFiltroAtivo("reservado")}
-              className={`p-2 rounded-2xl transition
-              ${
-                filtroAtivo === "reservado"
-                  ? cores.reservados
-                  : "border-[#a5a5a5] border"
+              className={`p-2 rounded-2xl border ${
+                filtroAtivo === "reservado" ? cores.reservados : ""
               }`}
             >
-              Reservados{" "}
-              <span className="p-1">
-                {lotesA?.lotes.filter((l) => l.status === "reservado").length ||
-                  0}
-              </span>
+              Reservados ({contadores.reservado})
             </button>
 
             <button
               onClick={() => setFiltroAtivo("vendido")}
-              className={`p-2 rounded-2xl transition
-              ${
-                filtroAtivo === "vendido"
-                  ? cores.vendidos
-                  : "border-[#a5a5a5] border"
+              className={`p-2 rounded-2xl border ${
+                filtroAtivo === "vendido" ? cores.vendidos : ""
               }`}
             >
-              Vendidos{" "}
-              <span className="p-1">
-                {lotesA?.lotes.filter((l) => l.status === "vendido").length ||
-                  0}
-              </span>
+              Vendidos ({contadores.vendido})
             </button>
           </div>
         </div>
 
-        {/* filtro para o status para mobile */}
+        {/* FILTRO MOBILE */}
         <div className="sm:hidden">
-          <div>
-            <Select
-              value={filtroAtivo}
-              onValueChange={(value) => setFiltroAtivo(value as Filtro)}
-            >
-              <SelectTrigger className="w-full">
-                <SelectValue placeholder="Status" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="todos">Todos</SelectItem>
-                <SelectItem value="disponivel">Disponível</SelectItem>
-                <SelectItem value="reservado">Reservado</SelectItem>
-                <SelectItem value="vendido">Vendido</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
+          <Select
+            value={filtroAtivo}
+            onValueChange={(value) => setFiltroAtivo(value as Filtro)}
+          >
+            <SelectTrigger className="w-full">
+              <SelectValue placeholder="Status" />
+            </SelectTrigger>
+
+            <SelectContent>
+              <SelectItem value="todos">Todos</SelectItem>
+              <SelectItem value="disponivel">Disponível</SelectItem>
+              <SelectItem value="reservado">Reservado</SelectItem>
+              <SelectItem value="vendido">Vendido</SelectItem>
+            </SelectContent>
+          </Select>
         </div>
 
-        {/* Cards de lotes */}
-        <div
-          className=" 
-          mt-6 
-          mb-26
-          mx-auto
-          grid
-          grid-cols-1
-          sm:grid-cols-2
-          md:grid-cols-2
-          lg:grid-cols-3
-          gap-6
-          sm:mt-2
-          place-items-center
-          max-w-7xl"
-        >
+        {/* CARDS */}
+        <div className="mt-6 mb-26 mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-7xl place-items-center">
           {lotesFiltrados.map((lote: Lote) => (
             <LotCard
               key={lote.id}
               status={lote.status}
-              Vendedorname={lote.seller}
-              vendedor={lote.buyer}
-              nameChacara={nomChacara}
-              NumeroSubLote={lote.numberLote}
-              idLotes={id} // id do lote, não do
+              Vendedorname={lote.seller_name}
+              vendedor={lote.buyer_name}
+              nameChacara={nameLote}
+              NumeroSubLote={lote.number_sublots}
+              idLotes={id}
               subLotes={true}
               idSublote={lote.id}
             />
           ))}
         </div>
       </main>
-      {/* Navegador para mobile */}
+
+      {/* NAV MOBILE */}
       <div className="sm:hidden">
         <Navegador />
       </div>

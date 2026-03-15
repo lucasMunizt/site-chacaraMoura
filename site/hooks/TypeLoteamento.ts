@@ -1,23 +1,26 @@
 type Lote = {
   status: "disponivel" | "reservado" | "vendido";
-  // area: number;
-  // price: number;
-  // data: string;
-  numberLote: number;
-  buyer: string;
+  number_sublots: number;
+  buyer_name: string;
   name: string;
-  // phone: string;
   Vendedorname: string;
-  seller: string;
+  seller_name: string;
   id: string;
 };
 
 type Loteamento = {
   id: string;
   name: string;
-  loteStatus: "disponivel" | "reservado" | "vendido";
-  quantityLotes: number;
+  status: "disponivel" | "reservado" | "vendido";
+  quantity_lotes: number;
   lotes: Lote[];
 };
 
-export type { Lote, Loteamento };
+type User = {
+  name: string;
+  lastname: string;
+  role: string;
+  id: number;
+};
+
+export type { Lote, Loteamento, User };

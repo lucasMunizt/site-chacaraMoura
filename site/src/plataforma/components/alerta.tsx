@@ -23,16 +23,11 @@ const Alerta = ({ deletar, setDeletar, idLotes }: AlertaProps) => {
   const navigate = useNavigate();
   const deletarLote = async () => {
     try {
-      const exclusao = await DeleteLotes(idLotes);
-      navigate("/home");
-
-      if (!exclusao?.success) {
-        throw new Error("Falha ao excluir lote");
-      }
+      await DeleteLotes(idLotes);
       setDeletar(false); // fecha o dialog
       console.log("Lote excluído com sucesso");
-
-      navigate("/home"); // só navega se deu certo
+      navigate("/home");
+      window.location.reload();
     } catch (err) {
       console.error("Erro ao excluir lote: ", err);
     }

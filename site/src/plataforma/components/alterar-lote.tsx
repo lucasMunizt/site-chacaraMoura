@@ -65,7 +65,7 @@ const AlterarLote = ({
 
     if (alterar) {
       alert("Lote alterado com sucesso!");
-      window.location.reload();
+     window.location.reload();
     } else {
       alert("Erro ao alterar lote.");
     }
