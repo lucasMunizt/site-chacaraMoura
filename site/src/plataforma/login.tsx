@@ -29,7 +29,6 @@ const Login = () => {
         localStorage.setItem("uid", response.result.user.id);
         localStorage.setItem("role", response.result.user.role);
         localStorage.setItem("authetication", valorAuthentication);
-        console.log("role:", response.result.user.role);
         navigate("/home");
       }
     } catch (error) {
