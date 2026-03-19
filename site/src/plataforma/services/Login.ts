@@ -19,6 +19,7 @@ export default async function CreateUser(
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
       body: JSON.stringify(createUser),
     });
