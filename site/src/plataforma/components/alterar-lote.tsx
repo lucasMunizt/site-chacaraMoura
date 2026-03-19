@@ -67,7 +67,6 @@ const AlterarLote = ({
     );
 
     if (alterar) {
-      setDeletarFull(true);
       window.location.reload();
     } else {
       setErroDeletar(true);
