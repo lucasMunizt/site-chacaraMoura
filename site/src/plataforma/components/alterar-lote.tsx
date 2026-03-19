@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import {
   DropdownMenu,
@@ -18,7 +18,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useForm } from "react-hook-form";
 import { AlterarStatusSubLote } from "../services/Putlotes";
-
+import AlertaFull from "./alerta-full";
+import AlertaErro from "./alerta-erro";
 interface AlterarLoteProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
@@ -47,6 +48,8 @@ const AlterarLote = ({
       seller: "",
     },
   });
+  const [deletarFull, setDeletarFull] = useState(false);
+  const [erroDeletar, setErroDeletar] = useState(false);
 
   const onSubmit = async (data: FormValues) => {
     if (!id) {
@@ -64,10 +67,10 @@ const AlterarLote = ({
     );
 
     if (alterar) {
-      alert("Lote alterado com sucesso!");
-     window.location.reload();
+      setDeletarFull(true);
+      window.location.reload();
     } else {
-      alert("Erro ao alterar lote.");
+      setErroDeletar(true);
     }
   };
 
@@ -163,6 +166,17 @@ const AlterarLote = ({
               Salvar alterações
             </Button>
           </form>
+          <AlertaFull
+            textMessage="Lote Lote alterado com sucesso!"
+            titulo="Lote alterado com sucesso!"
+            setDeletar={setDeletarFull}
+            deletar={deletarFull}
+          />
+          <AlertaErro
+            deletar={erroDeletar}
+            setDeletar={setErroDeletar}
+            ErroTitulo="Erro ao alterar lote."
+          />
         </Form>
       </DialogContent>
     </Dialog>

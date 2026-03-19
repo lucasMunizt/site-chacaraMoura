@@ -4,6 +4,7 @@ import { MapPin, CheckCircle, Clock } from "lucide-react";
 import LotCard from "./components/LotCard";
 import { Lote } from "../../hooks/TypeLoteamento";
 import { useEffect, useMemo, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   Select,
   SelectContent,
@@ -20,7 +21,7 @@ const SubLotesPage = () => {
 
   const location = useLocation();
   const { id, nameLote } = location.state as { id: string; nameLote: string };
-
+  const navigate = useNavigate();
   const [filtroAtivo, setFiltroAtivo] = useState<Filtro>("todos");
   const [lotes, setLotes] = useState<Lote[]>([]);
   const cores = {
@@ -35,14 +36,22 @@ const SubLotesPage = () => {
     async function carregar() {
       try {
         const data = await DadosLotes(id);
-        setLotes(data || []);
+
+        const lista = Array.isArray(data) ? data : [];
+
+        setLotes(lista);
+
+        if (lista.length === 0) {
+          navigate("/home");
+        }
       } catch (err) {
         console.error(err);
+        navigate("/home"); // opcional: fallback em erro
       }
     }
 
     carregar();
-  }, [id]);
+  }, [id, navigate]);
 
   // contadores (calculado apenas quando lotes muda)
   const contadores = useMemo(() => {

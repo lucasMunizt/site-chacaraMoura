@@ -9,14 +9,18 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { useNavigate } from "react-router-dom";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { CreateLotes } from "../services/PostLotes";
 import AlertaErro from "./alerta-erro";
+import AlertaFull from "./alerta-full";
 
 const CreateLote = () => {
   const [nameLote, setNameLote] = useState("");
   const [numberLote, setNumberLote] = useState(0);
+  const [deletar, setDeletar] = useState(false);
+  const navigate = useNavigate();
   // const [area, setArea] = useState("");
   const [erroCriar, seterroCriar] = useState(false);
   const form = useForm({
@@ -27,9 +31,16 @@ const CreateLote = () => {
   });
 
   const onSubmit = async () => {
+    const role = localStorage.getItem("role");
     try {
-      await CreateLotes(numberLote, nameLote);
-      window.location.reload();
+      if (role === "admin") {
+        await CreateLotes(numberLote, nameLote);
+        window.location.reload();
+      } else {
+        console.log("Erro ao criar. nivel insuficiente!");
+        setDeletar(true);
+        navigate("/home");
+      }
     } catch (error) {
       seterroCriar(true);
       console.error("error ao criar", error);
@@ -83,31 +94,6 @@ const CreateLote = () => {
             </FormItem>
           )}
         />
-
-        {/* ÁREA */}
-        {/* <FormField
-          control={form.control}
-          name="area"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel className="text-black">Área do lote</FormLabel>
-              <FormControl>
-                <Input
-                  type="text"
-                  {...field}
-                  placeholder="1X200"
-                  value={area}
-                  className="placeholder:text-black text-black"
-                  onChange={(e) => {
-                    setArea(e.target.value);
-                  }}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        /> */}
-
         <Button type="submit" className="w-full bg-[#00C951]">
           Criar
         </Button>
@@ -116,6 +102,12 @@ const CreateLote = () => {
         deletar={erroCriar}
         setDeletar={seterroCriar}
         ErroTitulo="Criar"
+      />
+      <AlertaFull
+        textMessage="Erro ao criar. nivel insuficiente!"
+        titulo="Acesso insuficiente"
+        setDeletar={setDeletar}
+        deletar={deletar}
       />
     </Form>
   );
