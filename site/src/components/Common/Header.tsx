@@ -1,11 +1,9 @@
-import { UserRound } from "lucide-react";
+
 import { FaWhatsapp } from "react-icons/fa";
 import AOS from "aos";
 import "aos/dist/aos.css";
 import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 export const Header = () => {
-  const navigate = useNavigate();
   useEffect(() => {
     AOS.init({
       duration: 1000, // duração da animação
@@ -28,8 +26,8 @@ export const Header = () => {
       />
       <img
         src="/chacaras-moura-test2.svg"
-        className="absolute top-1 md:top-1/12 lef-[90%] md:left-[5%] md:w-44"
-        alt=""
+        className="absolute top-1 md:top-[1/14] left-[25%] md:left-[5%] md:w-44"
+        alt="logo-chacaras moura"
       />
       <h1
         className="
@@ -75,31 +73,13 @@ export const Header = () => {
           rel="noopener noreferrer"
           className="cursor-pointer hover:shadow-lg transition-all border-none
           duration-300 hover:-translate-y-1 font-ibmPlex font-medium
-          md:flex md:gap-1 md:p-2.5 md:bg-[#E6E6E6] md:rounded-2xl
+         flex gap-1 p-2.5 bg-[#E6E6E6] rounded-2xl
           
           "
         >
-          <FaWhatsapp
-            className="cursor-pointer text-white md:text-black"
-            size={24}
-          />
-          <p className="hidden md:flex">Entrar em contato</p>
+          <FaWhatsapp className="cursor-pointer text-black" size={24} />
+          <p className="flex">Entrar em contato</p>
         </a>
-        <div
-          className="flex items-center cursor-pointer gap-1 
-        bg-[#E6E6E6] justify-center p-2.5 hover:shadow-lg transition-all 
-        duration-300 hover:-translate-y-1 border-none rounded-2xl"
-        >
-          <UserRound className="cursor-pointer" color="black" size={20} />
-          <a
-            onClick={() => {
-              navigate("/login");
-            }}
-            className="text-black font-medium font-ibmPlex"
-          >
-            Plataforma
-          </a>
-        </div>
       </div>
     </header>
   );

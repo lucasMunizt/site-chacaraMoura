@@ -34,29 +34,31 @@ export const Site = () => {
             >
               Quem somos
             </h1>
-
-            <p
-              data-aos="fade-up"
-              className="font-medium text-[18px] leading-normal text-white animate-jump 
+            <div className="text-justify max-w-x1 mx-auto leading-relaxed">
+              <p
+                data-aos="fade-up"
+                className="font-medium text-[18px] leading-normal text-white animate-jump 
               animate-alternate-reverse animate-duration-[600ms] 
-              animate-delay-[400ms] md:max-w-3xl md:text-justify "
-            >
-              A Chácaras Moura é uma empresa especializada na venda de mini
-              chácaras para quem busca o equilíbrio perfeito entre natureza e
-              conforto. Localizada em uma área privilegiada, a Chácaras Moura
-              oferece terrenos amplos, ideais para moradia longe do agito
-              urbano, mas com toda a comodidade necessária. Mini chácaras com
-              vista para a natureza exuberante, a empresa proporciona qualidade
-              de vida e tranquilidade, além de um atendimento personalizado,
-              facilitando a realização do sonho da sua casa de campo.
-            </p>
+              animate-delay-[400ms] md:max-w-3xl"
+              >
+                A Chácaras Moura é uma empresa especializada na venda de mini
+                chácaras para quem busca o equilíbrio perfeito entre natureza e
+                conforto. Localizada em uma área privilegiada, a Chácaras Moura
+                oferece terrenos amplos, ideais para moradia longe do agito
+                urbano, mas com toda a comodidade necessária. Mini chácaras com
+                vista para a natureza exuberante, a empresa proporciona
+                qualidade de vida e tranquilidade, além de um atendimento
+                personalizado, facilitando a realização do sonho da sua casa de
+                campo.
+              </p>
+            </div>
             <a
               href="https://wa.me/93991539111"
               target="_blank"
               rel="noopener noreferrer"
             >
               <button
-                className="group flex items-center gap-2 text-black font-medium font-ibmPlex bg-white 
+                className="group mb-4 flex items-center gap-2 text-black font-medium font-ibmPlex bg-white 
              hover:shadow-lg transition-all duration-300 hover:-translate-y-1 p-3 rounded-2xl cursor-pointer"
               >
                 <FaWhatsapp color="green" size={17} />

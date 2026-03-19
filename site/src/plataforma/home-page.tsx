@@ -30,11 +30,11 @@ const HomePage = () => {
       <HeaderPc />
       {/* conteudo da home page */}
       <main className="mt-2.5 ml-2">
-        <div className="sm:hidden flex items-center border-b border-border justify-center">
+        <div className="sm:hidden flex items-center border-b border-border justify-start">
           <img src="/logo-menor.png" className="relative top-3 w-24" />
-          <h1 className="font-ibmPlex font-bold sm:text-left text-center sm:ml-10 text-2xl">
-            Lotes
-          </h1>
+          <h1 className="font-display flex items-center text-2xl sm:hidden md:flex lg:text-4xl  font-bold text-foreground">
+              Mini-Chácaras
+            </h1>
         </div>
         <div
           className="   

@@ -35,7 +35,7 @@ const BuscaLotes = ({ openModal, setOpenModal }: BuscaLotesProps) => {
         setResultados([]);
         return;
       }
-      const filtrados = lotes.filter((lote) => { 
+      const filtrados = lotes.filter((lote) => {
         return lote.name?.toLowerCase().includes(dadosInput.toLowerCase());
       });
       console.log(filtrados);
@@ -43,7 +43,6 @@ const BuscaLotes = ({ openModal, setOpenModal }: BuscaLotesProps) => {
     }, 300);
     return () => clearTimeout(delay);
   }, [dadosInput, lotes]);
-
 
   return (
     <Dialog open={openModal} onOpenChange={setOpenModal}>
@@ -67,7 +66,10 @@ const BuscaLotes = ({ openModal, setOpenModal }: BuscaLotesProps) => {
               <li
                 className="text-white mt-2 bg-[#222C3D] rounded-2xl w-full pl-4 p-3 cursor-pointer hover:bg-[#2A3A50] transition-colors duration-200"
                 onClick={() => {
-                  navigate("/sublotes", { state: { id: loteamento.id } });
+                  navigate("/sublotes", {
+                    state: { id: loteamento.id, nameLote: loteamento.name },
+                  });
+                  setOpenModal(false);
                 }}
               >
                 {loteamento.name}
