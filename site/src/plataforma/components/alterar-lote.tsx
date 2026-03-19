@@ -18,7 +18,6 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useForm } from "react-hook-form";
 import { AlterarStatusSubLote } from "../services/Putlotes";
-import AlertaFull from "./alerta-full";
 import AlertaErro from "./alerta-erro";
 interface AlterarLoteProps {
   open: boolean;
@@ -53,7 +52,8 @@ const AlterarLote = ({
 
   const onSubmit = async (data: FormValues) => {
     if (!id) {
-      alert("ID do lote não encontrado");
+      // alert("ID do lote não encontrado");
+      setDeletarFull(true);
       return;
     }
 
@@ -165,16 +165,16 @@ const AlterarLote = ({
               Salvar alterações
             </Button>
           </form>
-          <AlertaFull
-            textMessage="Lote Lote alterado com sucesso!"
-            titulo="Lote alterado com sucesso!"
-            setDeletar={setDeletarFull}
-            deletar={deletarFull}
-          />
           <AlertaErro
             deletar={erroDeletar}
             setDeletar={setErroDeletar}
             ErroTitulo="Erro ao alterar lote."
+          />
+
+          <AlertaErro
+            deletar={deletarFull}
+            setDeletar={setDeletarFull}
+            ErroTitulo="ID do lote não encontrado"
           />
         </Form>
       </DialogContent>
