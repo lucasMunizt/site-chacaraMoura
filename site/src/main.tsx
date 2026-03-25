@@ -8,6 +8,7 @@ import Login from "./plataforma/login";
 import SubLotesPage from "./plataforma/sub-lotes";
 import HomePage from "./plataforma/home-page";
 import PrivateRoute from "./plataforma/services/PrivateRouter";
+import PainelCorretor from "./plataforma/painel-corretor";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -28,6 +29,10 @@ const router = createBrowserRouter([
           {
             path: "sublotes",
             element: <SubLotesPage />,
+          },
+          {
+            path: "painelcorretor",
+            element: <PainelCorretor />,
           },
         ],
       },

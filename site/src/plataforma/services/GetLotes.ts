@@ -51,3 +51,20 @@ export async function getUser() {
     console.error("Error fetching user data:", error);
   }
 }
+
+export async function getTopSellerFull() {
+  try {
+    const url =
+      import.meta.env.VITE_URL_CONEXAO + "loteamentos/listamaioresvendedores";
+    const response = await fetch(url, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    });
+    return response.json();
+  } catch (error) {
+    console.error("Error fetching user data:", error);
+  }
+}

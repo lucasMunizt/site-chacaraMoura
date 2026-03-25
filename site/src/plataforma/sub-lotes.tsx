@@ -27,7 +27,7 @@ const SubLotesPage = () => {
   const cores = {
     todos: "bg-[#31814F] text-white",
     disponiveis: "bg-[#599970] text-white",
-    reservados: "bg-[#CFAF3E] text-white",
+    reservados: " bg-[#CFAF3E] text-white",
     vendidos: "bg-[#8B2C2C] text-white",
   };
 
@@ -115,7 +115,7 @@ const SubLotesPage = () => {
             value={contadores.disponivel}
             icon={<MapPin className="w-6 h-6" />}
             color="segunda"
-            colorText="segunda-cor"
+            colorText="terceira-cor"
           />
 
           <StatusCard
@@ -123,7 +123,7 @@ const SubLotesPage = () => {
             value={contadores.reservado}
             icon={<Clock className="w-6 h-6" />}
             color="terceira"
-            colorText="terceira-cor"
+            colorText="segunda-cor"
           />
         </div>
 

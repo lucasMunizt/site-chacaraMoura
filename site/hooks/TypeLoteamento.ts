@@ -23,4 +23,11 @@ type User = {
   id: number;
 };
 
-export type { Lote, Loteamento, User };
+type SellerDados = {
+  lot_id: number;
+  nome_lote: string;
+  seller_name: string;
+  total_vendidos: number;
+};
+
+export type { Lote, Loteamento, User, SellerDados };

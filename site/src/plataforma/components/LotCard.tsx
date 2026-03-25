@@ -58,6 +58,8 @@ const LotCard = ({
     setDeletar(e);
   };
 
+  
+
   const deletarSubLote = async () => {
     try {
       await DeleteSubLotes(idLotes, NumeroSubLote);

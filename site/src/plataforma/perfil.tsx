@@ -70,9 +70,6 @@ const Perfil = ({ abrir, setAbrir }: PerfilProps) => {
           </DrawerClose>
           <DrawerHeader>
             <div className="flex items-center gap-3">
-              {/* <div className="w-[40px] h-[40px] bg-gray-300 border-0 rounded-3xl items-center flex justify-center font-ibmPlex font-bold">
-              LM
-            </div> */}
               <Avatar>
                 <AvatarImage />
                 <AvatarFallback>
@@ -91,7 +88,17 @@ const Perfil = ({ abrir, setAbrir }: PerfilProps) => {
             </div>
             <DrawerDescription>Cargo: {role}</DrawerDescription>
           </DrawerHeader>
-          <DrawerDescription></DrawerDescription>
+          <div className="w-full border-1 p-0 border-gray-400"></div>
+          <ul className="flex items-center ml-4 mt-2">
+            <li
+              className="cursor-pointer font-ibmPlex hover:text-gray-600"
+              onClick={() => {
+                navigate("/painelcorretor");
+              }}
+            >
+              painel corretor
+            </li>
+          </ul>
           <DrawerFooter>
             <Button onClick={submmitlogout}>
               {" "}
