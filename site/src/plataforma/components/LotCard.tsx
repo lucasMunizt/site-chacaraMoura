@@ -25,7 +25,7 @@ export interface LotCardProps {
   status: "disponivel" | "reservado" | "vendido";
   vendedor: string;
   NumeroSubLote: number;
-  Vendedorname: string;
+  comprador: string;
   nameChacara: string;
   idLotes: string;
   subLotes: boolean;
@@ -33,7 +33,7 @@ export interface LotCardProps {
 }
 const LotCard = ({
   status,
-  Vendedorname,
+  comprador,
   vendedor,
   nameChacara,
   NumeroSubLote,
@@ -162,7 +162,7 @@ const LotCard = ({
                     <p>Comprador</p>
                     <p className="flex items-center gap-1">
                       <User className="w-4 h-4 mr-1" color="#00C951" />
-                      {vendedor}
+                      {comprador}
                     </p>
                   </div>
 
@@ -170,7 +170,7 @@ const LotCard = ({
                     <p>Vendedor</p>
                     <p className="flex items-center gap-1">
                       <User className="w-4 h-4 mr-1" color="#00C951" />
-                      {Vendedorname}
+                      {vendedor}
                     </p>
                   </div>
                 </>

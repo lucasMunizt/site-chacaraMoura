@@ -193,7 +193,7 @@ const SubLotesPage = () => {
             <LotCard
               key={lote.id}
               status={lote.status}
-              Vendedorname={lote.seller_name}
+              comprador={lote.seller_name}
               vendedor={lote.buyer_name}
               nameChacara={nameLote}
               NumeroSubLote={lote.number_sublots}
