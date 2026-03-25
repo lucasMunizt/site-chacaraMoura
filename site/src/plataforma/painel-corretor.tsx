@@ -33,7 +33,7 @@ const PainelCorretor = () => {
         <Table className="" align="center">
           <TableHeader>
             <TableRow>
-              <TableHead>Nome Lote</TableHead>
+              <TableHead>Nome do Lote</TableHead>
               <TableHead>Vendedor</TableHead>
               <TableHead>Total Vendido</TableHead>
             </TableRow>
