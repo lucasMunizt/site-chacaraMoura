@@ -109,7 +109,9 @@ const PainelCorretor = () => {
                               : cores.aberto
                           }
                         >
-                          Aberto {dado.status_commission}
+                          {dado.status_commission
+                            ? "aberto"
+                            : dado.status_commission}
                         </button>
                       </DropdownMenuTrigger>
 
