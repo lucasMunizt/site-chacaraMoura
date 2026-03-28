@@ -15,6 +15,7 @@ import { LogOut } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { getUser } from "./services/GetLotes";
 import { User } from "hooks/TypeLoteamento";
+import { List } from "lucide-react";
 interface PerfilProps {
   abrir: boolean;
   setAbrir: (value: boolean) => void;
@@ -88,17 +89,22 @@ const Perfil = ({ abrir, setAbrir }: PerfilProps) => {
             </div>
             <DrawerDescription>Cargo: {role}</DrawerDescription>
           </DrawerHeader>
-          <div className="w-full border-1 p-0 border-gray-400"></div>
-          <ul className="flex items-center ml-4 mt-2">
-            <li
-              className="cursor-pointer font-ibmPlex hover:text-gray-600"
-              onClick={() => {
-                navigate("/painelcorretor");
-              }}
-            >
-              painel corretor
-            </li>
-          </ul>
+          {role == "admin" && (
+            <div>
+              <div className="w-full border-1 p-0 border-gray-400"></div>
+              <ul className="flex items-center ml-4 mt-2">
+                <li
+                  className="cursor-pointer flex gap-2 items-center font-ibmPlex hover:text-gray-600"
+                  onClick={() => {
+                    navigate("/painelcorretor");
+                  }}
+                >
+                  <List className="top-0.5 relative" size={14} />
+                  painel corretor
+                </li>
+              </ul>
+            </div>
+          )}
           <DrawerFooter>
             <Button onClick={submmitlogout}>
               {" "}

@@ -5,6 +5,7 @@ import { GetLotes } from "./services/GetLotes";
 import { Loteamento } from "../../hooks/TypeLoteamento";
 import LotCard from "./components/LotCard";
 import Navegador from "./components/navegador";
+import HeaderSimples from "./components/header-simples";
 
 const HomePage = () => {
   const [lotes, setLotes] = useState<Loteamento[]>([]);
@@ -30,12 +31,7 @@ const HomePage = () => {
       <HeaderPc />
       {/* conteudo da home page */}
       <main className="mt-2.5 ml-2">
-        <div className="sm:hidden flex items-center border-b border-border justify-start">
-          <img src="/logo-menor.png" className="relative top-3 w-24" />
-          <h1 className="font-display flex items-center text-2xl sm:hidden md:flex lg:text-4xl  font-bold text-foreground">
-            Mini-Chácaras
-          </h1>
-        </div>
+        <HeaderSimples/>
         <div
           className="   
           mt-6 

@@ -196,6 +196,7 @@ const SubLotesPage = () => {
               comprador={lote.buyer_name}
               vendedor={lote.seller_name}
               nameChacara={nameLote}
+              commission={lote.commission}
               NumeroSubLote={lote.number_sublots}
               idLotes={id}
               subLotes={true}

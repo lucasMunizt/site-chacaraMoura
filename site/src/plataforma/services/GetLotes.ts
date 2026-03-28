@@ -27,7 +27,6 @@ async function DadosLotes(id: string) {
       },
     });
     const data = response.json();
-
     return data;
   } catch (error) {
     console.error("Error fetching lotes data:", error);

@@ -20,6 +20,7 @@ const CreateLote = () => {
   const [nameLote, setNameLote] = useState("");
   const [numberLote, setNumberLote] = useState(0);
   const [deletar, setDeletar] = useState(false);
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   // const [area, setArea] = useState("");
   const [erroCriar, seterroCriar] = useState(false);
@@ -32,6 +33,8 @@ const CreateLote = () => {
 
   const onSubmit = async () => {
     const role = localStorage.getItem("role");
+    if (loading) return;
+    setLoading(true);
     try {
       if (role === "admin") {
         await CreateLotes(numberLote, nameLote);
@@ -44,6 +47,8 @@ const CreateLote = () => {
     } catch (error) {
       seterroCriar(true);
       console.error("error ao criar", error);
+    } finally {
+      setLoading(false);
     }
   };
   return (
@@ -94,8 +99,11 @@ const CreateLote = () => {
             </FormItem>
           )}
         />
-        <Button type="submit" className="w-full bg-[#00C951]">
-          Criar
+        <Button
+          type="submit"
+          className={`w-full bg-[#00C951] ${loading && "opacity-50 cursor-not-allowed"}`}
+        >
+          {loading ? "Criando..." : "Criar"}
         </Button>
       </form>
       <AlertaErro

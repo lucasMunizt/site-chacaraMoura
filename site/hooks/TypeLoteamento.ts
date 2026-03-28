@@ -3,6 +3,7 @@ type Lote = {
   number_sublots: number;
   buyer_name: string;
   name: string;
+  commission: number;
   Vendedorname: string;
   seller_name: string;
   id: string;
@@ -28,6 +29,10 @@ type SellerDados = {
   nome_lote: string;
   seller_name: string;
   total_vendidos: number;
+  status_commission: string;
+  total_comissao: number;
+  number_sublots: [];
+  row_id: string;
 };
 
 export type { Lote, Loteamento, User, SellerDados };

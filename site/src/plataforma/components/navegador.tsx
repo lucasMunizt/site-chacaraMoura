@@ -14,7 +14,7 @@ const Navegador = () => {
   };
   return (
     <>
-      <div className="w-full bg-[#0b0f19]/95 backdrop-blur-md border-t p-6 z-40 flex bottom-0 fixed left-0 ">
+      <div className="w-full bg-[#0b0f19]/95 backdrop-blur-md border-t p-3 z-40 flex bottom-0 fixed left-0 ">
         <div className="flex items-center justify-around w-full gap-2.5">
           <Button
             className="text-white flex-col justify-center items-center cursor-pointer hover:text-[#f77239]"

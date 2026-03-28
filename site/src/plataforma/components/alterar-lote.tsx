@@ -31,6 +31,7 @@ type FormValues = {
   status: "disponivel" | "reservado" | "vendido";
   buyer: string;
   seller: string;
+  commission: number;
 };
 
 const AlterarLote = ({
@@ -45,6 +46,7 @@ const AlterarLote = ({
       status: "disponivel",
       buyer: "",
       seller: "",
+      commission: 0,
     },
   });
   const [deletarFull, setDeletarFull] = useState(false);
@@ -52,10 +54,10 @@ const AlterarLote = ({
 
   const onSubmit = async (data: FormValues) => {
     if (!id) {
-      // alert("ID do lote não encontrado");
       setDeletarFull(true);
       return;
     }
+    console.log("commision number ", data.commission);
 
     const alterar = await AlterarStatusSubLote(
       id,
@@ -64,6 +66,7 @@ const AlterarLote = ({
       data.status,
       data.buyer || undefined,
       data.seller || undefined,
+      data.commission,
     );
 
     if (alterar) {
@@ -75,8 +78,8 @@ const AlterarLote = ({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-h-[90vh] overflow-y-auto bg-[#121e30]">
-        <DialogTitle className="text-white">Alterar Lote</DialogTitle>
+      <DialogContent className="max-h-[90vh] overflow-y-auto bg-white">
+        <DialogTitle className="text-black">Alterar Lote</DialogTitle>
 
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
@@ -86,7 +89,7 @@ const AlterarLote = ({
               name="status"
               render={() => (
                 <FormItem>
-                  <FormLabel className="text-white">Status do lote</FormLabel>
+                  <FormLabel className="text-black">Status do lote</FormLabel>
                   <FormControl>
                     <DropdownMenu>
                       <DropdownMenuTrigger className="w-full border rounded-md p-2 bg-[#d2ebda]">
@@ -125,14 +128,14 @@ const AlterarLote = ({
               name="buyer"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="text-white">
+                  <FormLabel className="text-black">
                     Nome do comprador
                   </FormLabel>
                   <FormControl>
                     <Input
                       {...field}
                       placeholder="Nome do comprador"
-                      className="placeholder:text-white text-white"
+                      className="placeholder:text-black text-black"
                       disabled={form.watch("status") !== "vendido"}
                     />
                   </FormControl>
@@ -147,13 +150,48 @@ const AlterarLote = ({
               name="seller"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="text-white">Nome do vendedor</FormLabel>
+                  <FormLabel className="text-black">Nome do vendedor</FormLabel>
                   <FormControl>
                     <Input
                       {...field}
                       placeholder="Nome do vendedor"
-                      className="placeholder:text-white text-white"
+                      className="placeholder:text-black text-black"
                       disabled={form.watch("status") !== "vendido"}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            {/* comissão */}
+            <FormField
+              control={form.control}
+              name="commission"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="text-black">
+                    Adicione a comissão
+                  </FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder="R$ 0,00"
+                      className="placeholder:text-black text-black"
+                      disabled={form.watch("status") !== "vendido"}
+                      value={
+                        field.value
+                          ? (field.value / 100).toLocaleString("pt-BR", {
+                              style: "currency",
+                              currency: "BRL",
+                            })
+                          : ""
+                      }
+                      onChange={(e) => {
+                        const rawValue = e.target.value.replace(/\D/g, ""); // só números
+
+                        const numberValue = Number(rawValue);
+
+                        field.onChange(numberValue); // salva em centavos
+                      }}
                     />
                   </FormControl>
                   <FormMessage />

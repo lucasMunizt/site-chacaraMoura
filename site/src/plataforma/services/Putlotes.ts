@@ -5,6 +5,7 @@ export async function AlterarStatusSubLote(
   status?: string,
   buyer?: string,
   seller?: string,
+  commission?: number,
 ) {
   try {
     const url =
@@ -25,6 +26,7 @@ export async function AlterarStatusSubLote(
         status,
         buyerName: buyer,
         sellerName: seller,
+        commission: commission,
       }),
     });
     if (!response.ok) throw new Error("Failed to update sublote");
@@ -32,5 +34,31 @@ export async function AlterarStatusSubLote(
     return data;
   } catch (error) {
     console.error("Error updating sublote:", error);
+  }
+}
+
+export async function updateStatusCommission(
+  id: number,
+  selleName: string,
+  status: string,
+) {
+  try {
+    const url =
+      import.meta.env.VITE_URL_CONEXAO + "loteamentos/sublotes/comissao/" + id;
+    const response = await fetch(url, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        // Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+      body: JSON.stringify({
+        sellerName: selleName,
+        stausCommission: status,
+      }),
+    });
+    if (!response.ok) throw new Error("Failed to update sublote");
+    return response;
+  } catch (error) {
+    console.error("erro ao alterar estatus da comisão", error);
   }
 }

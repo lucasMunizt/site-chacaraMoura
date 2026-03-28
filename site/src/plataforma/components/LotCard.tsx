@@ -30,6 +30,7 @@ export interface LotCardProps {
   idLotes: string;
   subLotes: boolean;
   idSublote?: string;
+  commission?: number;
 }
 const LotCard = ({
   status,
@@ -39,7 +40,7 @@ const LotCard = ({
   NumeroSubLote,
   idLotes,
   idSublote,
-
+  commission = 0,
   subLotes = false,
 }: LotCardProps) => {
   const cores = {
@@ -58,12 +59,10 @@ const LotCard = ({
     setDeletar(e);
   };
 
-  
-
   const deletarSubLote = async () => {
     try {
       await DeleteSubLotes(idLotes, NumeroSubLote);
-      setDeletarFull(true)
+      setDeletarFull(true);
       window.location.reload();
     } catch (error) {
       setErroDeletar(true);
@@ -175,6 +174,17 @@ const LotCard = ({
                       {vendedor}
                     </p>
                   </div>
+
+                  <div className="relative right-5">
+                    <p>Comissão</p>
+                    <p className="flex items-center gap-1">
+                      <User className="w-4 h-4 mr-1" color="#00C951" />
+                      {(commission / 100).toLocaleString("pt-BR", {
+                        style: "currency",
+                        currency: "BRL",
+                      })}
+                    </p>
+                  </div>
                 </>
               )}
             </>
@@ -214,7 +224,7 @@ const LotCard = ({
           </div>
         )}
       </Card>
-       <AlertaFull
+      <AlertaFull
         textMessage="SubLote deletado com sucesso!"
         titulo="deletado com sucesso"
         setDeletar={setDeletarFull}
