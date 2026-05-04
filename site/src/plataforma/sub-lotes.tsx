@@ -37,7 +37,7 @@ const SubLotesPage = () => {
       try {
         const data = await DadosLotes(id);
 
-        const lista = Array.isArray(data) ? data : [];
+        const lista = Array.isArray(data.sublots) ? data.sublots : [];
 
         setLotes(lista);
 

@@ -11,6 +11,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 import React, { useState } from "react";
+import { Switch } from "@/components/ui/switch";
 import { useForm } from "react-hook-form";
 import { CreateLotes } from "../services/PostLotes";
 import AlertaErro from "./alerta-erro";
@@ -19,8 +20,10 @@ import AlertaFull from "./alerta-full";
 const CreateLote = () => {
   const [nameLote, setNameLote] = useState("");
   const [numberLote, setNumberLote] = useState(0);
+  const [numberLoteInitial, setNumberLoteInitial] = useState(0);
   const [deletar, setDeletar] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [isOdd, setIsOdd] = useState(false);
   const navigate = useNavigate();
   // const [area, setArea] = useState("");
   const [erroCriar, seterroCriar] = useState(false);
@@ -28,6 +31,7 @@ const CreateLote = () => {
     defaultValues: {
       numberLote,
       nameLote: "",
+      numberLoteInitial: 0,
     },
   });
 
@@ -37,7 +41,7 @@ const CreateLote = () => {
     setLoading(true);
     try {
       if (role === "admin") {
-        await CreateLotes(numberLote, nameLote);
+        await CreateLotes(numberLote, nameLote, isOdd, numberLoteInitial);
         window.location.reload();
       } else {
         console.log("Erro ao criar. nivel insuficiente!");
@@ -76,6 +80,33 @@ const CreateLote = () => {
           )}
         />
 
+        {isOdd && (
+          <FormField
+            control={form.control}
+            name="numberLoteInitial"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="text-black">
+                  Quantidade de lotes iniciais
+                </FormLabel>
+                <FormControl>
+                  <Input
+                    type="number"
+                    {...field}
+                    placeholder="Coloque a quantidade de lotes"
+                    className="placeholder:text-black text-black"
+                    value={numberLoteInitial}
+                    onChange={(e) => {
+                      setNumberLoteInitial(Number(e.target.value));
+                    }}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        )}
+
         {/* numberLote */}
         <FormField
           control={form.control}
@@ -99,6 +130,15 @@ const CreateLote = () => {
             </FormItem>
           )}
         />
+        <div className="flex items-center space-x-2">
+          <Switch
+            id="airplane-mode"
+            checked={isOdd}
+            onCheckedChange={setIsOdd}
+          />
+          <p>Lotes ímpares</p>
+        </div>
+
         <Button
           type="submit"
           className={`w-full bg-[#00C951] ${loading && "opacity-50 cursor-not-allowed"}`}

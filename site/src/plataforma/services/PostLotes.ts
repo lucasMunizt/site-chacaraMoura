@@ -27,14 +27,23 @@ async function LoginPlataforma(email: string, password: string) {
 export default LoginPlataforma;
 
 // Função para criar lotes
-export async function CreateLotes(quantityLotes: number, nameLote: string) {
+export async function CreateLotes(
+  quantityLotes: number,
+  nameLote: string,
+  impar: boolean,
+  numberLoteInitial: number,
+) {
   // const roleUser = localStorage.getItem("role");
   const url = import.meta.env.VITE_URL_CONEXAO + "createlote";
-  console.log("post url", url);
+  console.log("impar ", impar);
+  
+  if(numberLoteInitial <= 0 ) numberLoteInitial = 1;
   try {
     const loteData = {
       quantityLotes,
       name: nameLote,
+      start_inicition: numberLoteInitial,
+      impar: impar,
     };
     const response = await fetch(url, {
       method: "POST",
