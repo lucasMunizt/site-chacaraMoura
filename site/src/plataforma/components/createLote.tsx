@@ -136,7 +136,7 @@ const CreateLote = () => {
             checked={isOdd}
             onCheckedChange={setIsOdd}
           />
-          <p>Lotes ímpares</p>
+          <p>Lotes ímpares ou pares</p>
         </div>
 
         <Button
