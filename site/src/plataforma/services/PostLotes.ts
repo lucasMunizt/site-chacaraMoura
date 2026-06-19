@@ -1,6 +1,7 @@
 // função para fazer Login
 async function LoginPlataforma(email: string, password: string) {
   const url = import.meta.env.VITE_URL_CONEXAO + "login";
+
   const dados = {
     email,
     password,
@@ -32,18 +33,19 @@ export async function CreateLotes(
   nameLote: string,
   impar: boolean,
   numberLoteInitial: number,
+  optionCreateLote: boolean
 ) {
   // const roleUser = localStorage.getItem("role");
   const url = import.meta.env.VITE_URL_CONEXAO + "createlote";
-  console.log("impar ", impar);
-  
-  if(numberLoteInitial <= 0 ) numberLoteInitial = 1;
+
+  if (numberLoteInitial <= 0) numberLoteInitial = 1;
   try {
     const loteData = {
       quantityLotes,
       name: nameLote,
       start_inicition: numberLoteInitial,
       impar: impar,
+      optionCreateLote: optionCreateLote,
     };
     const response = await fetch(url, {
       method: "POST",

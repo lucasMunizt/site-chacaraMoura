@@ -24,6 +24,7 @@ const CreateLote = () => {
   const [deletar, setDeletar] = useState(false);
   const [loading, setLoading] = useState(false);
   const [isOdd, setIsOdd] = useState(false);
+  const [isOddFull, setIsOddFull] = useState(false);
   const navigate = useNavigate();
   // const [area, setArea] = useState("");
   const [erroCriar, seterroCriar] = useState(false);
@@ -41,7 +42,7 @@ const CreateLote = () => {
     setLoading(true);
     try {
       if (role === "admin") {
-        await CreateLotes(numberLote, nameLote, isOdd, numberLoteInitial);
+        await CreateLotes(numberLote, nameLote, isOdd, numberLoteInitial,isOddFull);
         window.location.reload();
       } else {
         console.log("Erro ao criar. nivel insuficiente!");
@@ -80,7 +81,7 @@ const CreateLote = () => {
           )}
         />
 
-        {isOdd && (
+        {(isOdd || isOddFull) && (
           <FormField
             control={form.control}
             name="numberLoteInitial"
@@ -130,13 +131,24 @@ const CreateLote = () => {
             </FormItem>
           )}
         />
-        <div className="flex items-center space-x-2">
-          <Switch
-            id="airplane-mode"
-            checked={isOdd}
-            onCheckedChange={setIsOdd}
-          />
-          <p>Lotes ímpares ou pares</p>
+        <div className="flex items-center space-x-4">
+          <div className="flex items-center space-x-2">
+            <Switch
+              id="airplane-mode"
+              checked={isOdd}
+              onCheckedChange={setIsOdd}
+            />
+            <p>Lotes ímpares ou pares</p>
+          </div>
+
+          <div className="flex items-center space-x-2">
+            <Switch
+              id="airplane-mode"
+              checked={isOddFull}
+              onCheckedChange={setIsOddFull}
+            />
+            <p>Lotes iniciais e finais</p>
+          </div>
         </div>
 
         <Button
