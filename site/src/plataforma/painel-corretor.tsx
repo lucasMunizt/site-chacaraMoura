@@ -80,7 +80,7 @@ const PainelCorretor = () => {
           </TableHeader>
           <TableBody>
             {dados.map((dado) => (
-              <React.Fragment key={dado.lot_id}>
+              <React.Fragment key={dado.row_id}>
                 <TableRow
                   key={dado.lot_id}
                   className="cursor-pointer hover:bg-gray-100"
