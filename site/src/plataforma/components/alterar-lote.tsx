@@ -68,10 +68,9 @@ const AlterarLote = ({
       data.seller || undefined,
       data.commission,
     );
+    window.location.reload();
 
-    if (alterar) {
-      window.location.reload();
-    } else {
+    if (!alterar) {
       setErroDeletar(true);
     }
   };
